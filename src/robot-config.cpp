@@ -12,6 +12,8 @@ brain  Brain;
 controller Controller1 = controller(primary);
 motor rollerBottom = motor(PORT3, GREEN, false);
 motor rollerTop = motor(PORT2, BLUE, false);
+motor puncher = motor(PORT12, GREEN, false);
+motor flipper = motor(PORT4, BLUE, false);
 
 // VEXcode generated functions
 

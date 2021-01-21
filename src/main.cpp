@@ -85,6 +85,8 @@ void usercontrol(void) {
     power = Controller1.Axis1.position(percent)+Controller1.Axis2.position(percent);
     rollerTop.setVelocity(100, pct);
     rollerBottom.setVelocity(100, pct);
+    flipper.setVelocity(100, pct);
+    puncher.setVelocity(100, pct);
     Controller1.ButtonY.pressed(autonomous);
 
     //leave the drive code here, it should work if you set up 
@@ -116,6 +118,31 @@ void usercontrol(void) {
     {
       rollerTop.stop();
     }
+    if (Controller1.ButtonR1.pressing()){
+      flipper.spin(forward);
+    }
+    else if (Controller1.ButtonR2.pressing()){
+      flipper.spin(reverse);
+    }
+    else{
+      flipper.stop();
+    }
+
+    if (Controller1.ButtonL1.pressing()){
+      puncher.spin(forward);
+    }
+    else if (Controller1.ButtonL2.pressing()){
+      puncher.spin(reverse);
+    }
+    else{
+      puncher.stop();
+    }
+
+    if(Controller1.ButtonLeft.pressing())
+    {
+      //Auton1();
+    }
+  //Controller1.ButtonLeft.pressed(Auton1);
 
     wait(20, msec); // Sleep the task for a short amount of time to
   }

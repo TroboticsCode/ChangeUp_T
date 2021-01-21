@@ -21,6 +21,7 @@ void moveRotate(int16_t degrees, int velocity);
 void moveStop(void);
 void userDrive(void);
 
+
 //this is where all the config variables for a robot are located. Change them to match your robot
 //these variables are used in DriveFunctions.cpp
 
@@ -65,8 +66,8 @@ void userDrive(void);
  //#define TANK_CONTROL
 
 #ifdef ARCADE_CONTROL
-  #define HORIZONTALAXIS Axis1
-  #define VERTICALAXIS Axis2
+  #define HORIZONTALAXIS Axis4
+  #define VERTICALAXIS Axis3
 #elif def TANK_CONTROL
   #define LEFTAXIS Axis3
   #define RIGHTAXIS Axis2
@@ -116,7 +117,7 @@ void userDrive(void);
 #define GEAR_SET    BLUE
 //#define GEAR_SET    GREEN
 
-#define PID
+//#define PID
 //#define GYRO
 
 #ifdef GYRO

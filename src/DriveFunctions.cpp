@@ -128,7 +128,7 @@ void moveLinear(float distance, int velocity)
     FrontLeft.rotateFor(rotations, rotationUnits::rev, velocity, velocityUnits::pct, false);
     BackLeft.rotateFor(rotations, rotationUnits::rev, velocity, velocityUnits::pct, false);
     FrontRight.rotateFor(rotations, rotationUnits::rev, velocity, velocityUnits::pct, false);
-    BackRight.rotateFor(rotations, rotationUnits::rev, velocity, velocityUnits::pct, false);
+    BackRight.rotateFor(rotations, rotationUnits::rev, velocity, velocityUnits::pct, true);
   #endif
 #endif
 }
@@ -266,3 +266,4 @@ void moveRotate(int16_t degrees, int velocity)
   #endif
 #endif
 }
+
