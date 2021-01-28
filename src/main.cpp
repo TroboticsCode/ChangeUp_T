@@ -57,7 +57,11 @@ void autonomous(void)
     break;
 
     case AutonB:
-  
+      Auton2(); 
+    break;
+
+    case PIDTUNE:
+      pidTuning(); 
     break;
           
     // Default = NO autonomous
