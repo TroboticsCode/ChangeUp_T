@@ -63,7 +63,7 @@ void userDrive(void)
 /**************************************************
  * @brief: moves the robot forward or back
  *    at a given speed
- *
+ * @TODO: Fix comments about distance and velocity
  * @param distance: how far to move in inches, absolute value
  * @param velocity: how fast to move, signed value
  *                  sign determines direction
@@ -83,8 +83,8 @@ void moveLinear(float distance, int velocity)
   pidStruct_t driveL_PID;
   pidStruct_t driveR_PID;
 
-  pidInit(&driveL_PID, 80, 0, 10, 10, 20);
-  pidInit(&driveR_PID, 80, 0, 10, 10, 20);
+  pidInit(&driveL_PID, 80, 0, 0, 10, 20);
+  pidInit(&driveR_PID, 80, 0, 0, 10, 20);
 
   #if defined (CHASSIS_2_MOTOR_INLINE)
     DriveRight.resetRotation();

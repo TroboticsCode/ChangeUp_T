@@ -3,6 +3,8 @@
 
 using namespace vex;
 
+//@TODO: add function to update gains after init?
+
 void pidInit(pidStruct_t* pid, double kP, double kI, double kD, double slewRate, int minDt)
 {
   pid->kP = kP;
@@ -47,6 +49,7 @@ double pidCalculate(pidStruct_t *pid, double target, double current)
   if(pid->numIterations > SAMPLES_AVG) //array has been filled, calculate average
   {
     //make room for the next sample
+    //@TODO: make cyclical with mod space
     for(int i = 0; i < (SAMPLES_AVG-1); i++)
     {
       pid->errorSamples[i] = pid->errorSamples[i+1];
