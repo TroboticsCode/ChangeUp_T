@@ -40,7 +40,7 @@ void pre_auton(void)
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
   
-  Controller1.ButtonR1.pressed(cycle_autons);
+  Controller1.ButtonA.pressed(cycle_autons);
   Brain.Screen.pressed(cycle_autons);
   return;
 }
@@ -122,11 +122,21 @@ void usercontrol(void) {
     {
       rollerTop.stop();
     }
-    if (Controller1.ButtonR1.pressing()){
-      flipper.spin(forward);
-    }
-    else if (Controller1.ButtonR2.pressing()){
-      flipper.spin(reverse);
+
+    Brain.Screen.print("Flipper Current: %f", flipper.current());
+    Brain.Screen.newLine();
+    
+    if(fabs(flipper.current()) < 1.25)
+    {
+      if (Controller1.ButtonR1.pressing()){
+        flipper.spin(forward);
+      }
+      else if (Controller1.ButtonR2.pressing()){
+        flipper.spin(reverse);
+      }
+      else{
+        flipper.stop();
+      }
     }
     else{
       flipper.stop();

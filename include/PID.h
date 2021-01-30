@@ -13,7 +13,7 @@
 #include <stdlib.h>
 using namespace vex;
 
-#define SAMPLES_AVG 10
+#define SAMPLES_AVG 20
 
 typedef struct
 {

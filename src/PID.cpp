@@ -3,9 +3,27 @@
 
 using namespace vex;
 
-//@TODO: add function to update gains after init?
-
+/*
+* @brief: Init/ update funcion to start a PID controller
+* @param[in] kP: Proportional gain
+* @param[in] kI: Integral gain
+* @param[in] kD: Derivative gain
+* @param[in] slewRate: max change to the output value for any given calculation iteration
+* @param[in] minDt: minimum time between calculation iterations in mS. 
+*/
 void pidInit(pidStruct_t* pid, double kP, double kI, double kD, double slewRate, int minDt)
+{
+  pid->kP = kP;
+  pid->kI = kI;
+  pid->kD = kD;
+  pid->slewRate = slewRate;
+  pid->minDt = minDt;
+
+  pid->lastTime = Brain.timer(timeUnits::msec);
+}
+
+//looks the same as init because it is the same!
+void updateGains(pidStruct_t* pid, double kP, double kI, double kD, double slewRate, int minDt)
 {
   pid->kP = kP;
   pid->kI = kI;

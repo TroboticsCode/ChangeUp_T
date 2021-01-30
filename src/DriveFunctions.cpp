@@ -33,10 +33,18 @@ void userDrive(void)
   int32_t verticalAxis = Controller1.VERTICALAXIS.value();
   
   #ifdef CHASSIS_2_MOTOR_INLINE
+    DriveRight.setBrake(brakeType::coast);
+    DriveLeft.setBrake(brakeType::coast);
+
     DriveRight.spin(directionType::fwd, (verticalAxis - horizontalAxis), velocityUnits::pct);
     DriveLeft.spin(directionType::fwd, (verticalAxis + horizontalAxis), velocityUnits::pct);
   
   #elif defined CHASSIS_4_MOTOR_INLINE
+    BackRight.setBrake(brakeType::coast);
+    FrontRight.setBrake(brakeType::coast);
+    BackLeft.setBrake(brakeType::coast);
+    FrontLeft.setBrake(brakeType::coast);
+
     BackRight.spin(directionType::fwd, (verticalAxis - horizontalAxis), velocityUnits::pct);
     BackLeft.spin(directionType::fwd, (verticalAxis + horizontalAxis), velocityUnits::pct);
     FrontRight.spin(directionType::fwd, (verticalAxis - horizontalAxis), velocityUnits::pct);
@@ -83,8 +91,8 @@ void moveLinear(float distance, int velocity)
   pidStruct_t driveL_PID;
   pidStruct_t driveR_PID;
 
-  pidInit(&driveL_PID, 5, 0, 0, 10, 20);
-  pidInit(&driveR_PID, 5, 0, 0, 10, 20);
+  pidInit(&driveL_PID, 30, 0.00, 30, 99, 50);
+  pidInit(&driveR_PID, 30, 0.00, 30, 99, 50);
 
   #if defined (CHASSIS_2_MOTOR_INLINE)
     DriveRight.resetRotation();
@@ -94,6 +102,9 @@ void moveLinear(float distance, int velocity)
     FrontRight.resetRotation();
     BackLeft.resetRotation();
     BackRight.resetRotation();
+
+    double leftRevAvg  = 0;
+    double rightRevAvg = 0;
   #endif
  
   printPIDValues(&driveR_PID);
@@ -110,13 +121,17 @@ void moveLinear(float distance, int velocity)
 
     #elif defined (CHASSIS_4_MOTOR_INLINE)
       printPIDValues(&driveR_PID);
-      DriveR_Power = (velocity/100.0f) * pidCalculate(&driveR_PID, rotations, BackRight.rotation(rev));
-      DriveL_Power = (velocity/100.0f) * pidCalculate(&driveL_PID, rotations, BackLeft.rotation(rev));
 
-      FrontRight.spin(forward, DriveR_Power, pct);
-      FrontLeft.spin(forward, DriveL_Power, pct);
-      BackLeft.spin(forward, DriveL_Power, pct);
-      BackRight.spin(forward, DriveR_Power, pct);
+      leftRevAvg = (BackLeft.rotation(rev) + FrontLeft.rotation(rev)) / 2.0;
+      rightRevAvg = (BackRight.rotation(rev) + FrontRight.rotation(rev)) / 2.0;
+
+      DriveR_Power = (velocity/100.0f) * (pidCalculate(&driveR_PID, rotations, rightRevAvg) / 100.0);
+      DriveL_Power = (velocity/100.0f) * (pidCalculate(&driveL_PID, rotations, leftRevAvg) / 100.0);
+
+      FrontRight.spin(forward, 12 * DriveR_Power, voltageUnits::volt);
+      FrontLeft.spin(forward, 12 * DriveL_Power, voltageUnits::volt);
+      BackLeft.spin(forward, 12 * DriveL_Power, voltageUnits::volt);
+      BackRight.spin(forward, 12 * DriveR_Power, voltageUnits::volt);
     #endif
     
   }while(fabs(driveR_PID.avgError) > 0.05 || fabs(driveL_PID.avgError) > 0.05);
@@ -138,10 +153,10 @@ void moveLinear(float distance, int velocity)
 void moveStop(void)
 {
 #ifdef CHASSIS_4_MOTOR_INLINE
-  FrontLeft.stop();
-  BackLeft.stop();
-  FrontRight.stop();
-  BackRight.stop();
+  FrontLeft.stop(brakeType::hold);
+  BackLeft.stop(brakeType::hold);
+  FrontRight.stop(brakeType::hold);
+  BackRight.stop(brakeType::hold);
 
 #elif defined(CHASSIS_2_MOTOR_INLINE)
   DriveRight.stop(brakeType::hold);
@@ -185,14 +200,17 @@ void moveRotate(int16_t degrees, int velocity)
     FrontRight.resetRotation();
     BackLeft.resetRotation();
     BackRight.resetRotation();
+
+    double leftRevAvg  = 0;
+    double rightRevAvg = 0;
   #endif
 
   #if !defined GYRO
     pidStruct_t rotateR_PID;
     pidStruct_t rotateL_PID;
 
-    pidInit(&rotateR_PID, 100, 0, 10, 15, 10);
-    pidInit(&rotateL_PID, 100, 0, 10, 15, 10);
+    pidInit(&rotateR_PID, 30, 0, 0, 50, 50);
+    pidInit(&rotateL_PID, 30, 0, 0, 50, 50);
 
     float DriveR_Power = 0;
     float DriveL_Power = 0;
@@ -210,8 +228,11 @@ void moveRotate(int16_t degrees, int velocity)
     motorPower = (velocity/100.0f) * pidCalculate(&rotatePID, degrees, myGyro.rotation(rotationUnits::deg));
   #elif !defined (GYRO)
     #ifdef CHASSIS_4_MOTOR_INLINE
-      DriveL_Power = (velocity/100.0f) * pidCalculate(&rotateL_PID, rotations, BackLeft.rotation(rev));
-      DriveR_Power = (velocity/100.0f) * pidCalculate(&rotateR_PID, rotations, BackRight.rotation(rev));
+      leftRevAvg = (BackLeft.rotation(rev) + FrontLeft.rotation(rev)) / 2.0;
+      rightRevAvg = (BackRight.rotation(rev) + FrontRight.rotation(rev)) / 2.0;
+
+      DriveL_Power = (velocity/100.0f) * pidCalculate(&rotateL_PID, rotations, -1.0 * leftRevAvg) / 100.0;
+      DriveR_Power = (velocity/100.0f) * pidCalculate(&rotateR_PID, rotations, rightRevAvg) / 100.0;
     #elif defined CHASSIS_2_MOTOR_INLINE
       DriveL_Power = (velocity/100.0f) * pidCalculate(&rotateL_PID, rotations, DriveLeft.rotation(rev));
       DriveR_Power = (velocity/100.0f) * pidCalculate(&rotateR_PID, rotations, -1.0f * DriveRight.rotation(rev));
@@ -234,10 +255,10 @@ void moveRotate(int16_t degrees, int velocity)
   #else 
     printPIDValues(&rotateR_PID);
     #ifdef CHASSIS_4_MOTOR_INLINE
-      FrontRight.spin(forward, DriveR_Power, pct);
-      FrontLeft.spin(reverse, DriveL_Power, pct);
-      BackRight.spin(forward, DriveR_Power, pct);
-      BackLeft.spin(reverse, DriveL_Power, pct);
+      FrontRight.spin(forward, 12 * DriveR_Power, voltageUnits::volt);
+      FrontLeft.spin(reverse, 12 * DriveL_Power, voltageUnits::volt);
+      BackLeft.spin(reverse, 12 * DriveL_Power, voltageUnits::volt);
+      BackRight.spin(forward, 12 * DriveR_Power, voltageUnits::volt);
 
     #elif defined CHASSIS_2_MOTOR_INLINE
       DriveRight.spin(reverse, DriveR_Power, pct);

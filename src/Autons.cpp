@@ -23,7 +23,8 @@ void Auton2()
 
 void pidTuning()
 {
-  moveLinear(36, 100);
+  //moveLinear(36, 50);
+  moveRotate(270, 100);
   /*for(int i = 0; i < 8; i++)
   {
     moveLinear(12, 100);  

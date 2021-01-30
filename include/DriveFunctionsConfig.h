@@ -78,8 +78,8 @@ void userDrive(void);
  * (from wheel center to wheel center) of 
  * your chassis here in inches
  */
- #define CHASSIS_WIDTH    9.25f
- #define CHASSIS_LENGTH   10.5f
+ #define CHASSIS_WIDTH    13.0f
+ #define CHASSIS_LENGTH   9.50f
 
 #define HYPOTENUSE sqrt(pow(CHASSIS_WIDTH,2) + pow(CHASSIS_LENGTH,2))
 #define RADIUS  HYPOTENUSE/2.0f
