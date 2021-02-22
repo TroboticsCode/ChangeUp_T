@@ -88,7 +88,7 @@ void usercontrol(void) {
     Controller1.ButtonUp.pressed(AutonSkeleton);
 
     // leave the drive code here, it should work if you set up
-    // DriveFunctionsConfig.h properly
+    // DriveFunctionsConfig.h properly,
     userDrive();
 
     if(Controller1.ButtonL1.pressing())
