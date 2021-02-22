@@ -1,7 +1,7 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Inertial12           inertial      12              
+// Inertial12           inertial      12
 // ---- END VEXCODE CONFIGURED DEVICES ----
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
@@ -12,11 +12,10 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
-
-#include "vex.h"
 #include "Autons.h"
-#include "Functions.h"
 #include "DriveFunctionsConfig.h"
+#include "Functions.h"
+#include "vex.h"
 
 using namespace vex;
 
@@ -35,39 +34,38 @@ competition Competition;
 /*  not every time that the robot is disabled.                               */
 /*---------------------------------------------------------------------------*/
 
-void pre_auton(void) 
-{
+void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
-  
+
   Controller1.ButtonA.pressed(cycle_autons);
   Brain.Screen.pressed(cycle_autons);
+
   return;
 }
 
-void autonomous(void) 
-{
- switch (state)
-  {
-    case NONE:
+void autonomous(void) {
+  //          kP kI  kD slew minDT
+  //setLinGains(40, 0.00, 35, 1.8, 30);
+  //setRotGains(35, 0.004, 20, 3, 20);
+
+  switch (state) {
+  case NONE:
     break;
 
-    case AutonR:    
-      Auton1();
+  case AutonR:
+    Auton1();
     break;
 
-    case AutonB:
-      Auton2(); 
+  case AutonB:
+    AutonSkeleton();
     break;
 
-    case PIDTUNE:
-      pidTuning(); 
-    break;
-          
-    // Default = NO autonomous
-    default:
+  // Default = NO autonomous
+  default:
     break;
   }
+
 }
 /*---------------------------------------------------------------------------*/
 /*                                                                           */
@@ -79,96 +77,58 @@ void autonomous(void)
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-void usercontrol(void) { 
-  //add local user control variables here:
-  int power;
-  
-  //User control code here, inside the loop:
-  //remove existing demo code and replace with you own! Then remove this comment
-  while (1) {
-    power = Controller1.Axis1.position(percent)+Controller1.Axis2.position(percent);
-    rollerTop.setVelocity(100, pct);
-    rollerBottom.setVelocity(100, pct);
-    flipper.setVelocity(100, pct);
-    puncher.setVelocity(100, pct);
-    Controller1.ButtonY.pressed(autonomous);
+void usercontrol(void) {
+  // add local user control variables here:
 
-    //leave the drive code here, it should work if you set up 
+  // User control code here, inside the loop:
+  // remove existing demo code and replace with you own! Then remove this
+  // comment
+  while (1) 
+  {   
+    Controller1.ButtonUp.pressed(AutonSkeleton);
+
+    // leave the drive code here, it should work if you set up
     // DriveFunctionsConfig.h properly
     userDrive();
 
-    if (Controller1.ButtonX.pressing())
+    if(Controller1.ButtonL1.pressing())
     {
-      rollerBottom.spin(forward);
+      MiddleRoller.spin(directionType::fwd, 100, velocityUnits::pct);
     }
-    else if (Controller1.ButtonB.pressing())
+    else if(Controller1.ButtonL2.pressing())
     {
-      rollerBottom.spin(reverse);
-    }
-    else
-    {
-      rollerBottom.stop();
-    }
-
-    if (Controller1.ButtonUp.pressing())
-    {
-      rollerTop.spin(forward);
-    }
-    else if (Controller1.ButtonDown.pressing())
-    {
-      rollerTop.spin(reverse);
+      MiddleRoller.spin(directionType::rev, 100, velocityUnits::pct);
     }
     else
     {
-      rollerTop.stop();
+      MiddleRoller.stop(brakeType::hold);
     }
 
-    Brain.Screen.print("Flipper Current: %f", flipper.current());
-    Brain.Screen.newLine();
+    if(Controller1.ButtonR1.pressing())
+    {
+      TopRoller.spin(directionType::fwd, 100, velocityUnits::pct);
+    }
+    else if(Controller1.ButtonR2.pressing())
+    {
+      TopRoller.spin(directionType::rev, 100, velocityUnits::pct);
+    }
+    else
+    {
+      TopRoller.stop(brakeType::hold);
+    }
     
-    if(fabs(flipper.current()) < 1.25)
-    {
-      if (Controller1.ButtonR1.pressing()){
-        flipper.spin(forward);
-      }
-      else if (Controller1.ButtonR2.pressing()){
-        flipper.spin(reverse);
-      }
-      else{
-        flipper.stop();
-      }
-    }
-    else{
-      flipper.stop();
-    }
-
-    if (Controller1.ButtonL1.pressing()){
-      puncher.spin(forward);
-    }
-    else if (Controller1.ButtonL2.pressing()){
-      puncher.spin(reverse);
-    }
-    else{
-      puncher.stop();
-    }
-
-    if(Controller1.ButtonLeft.pressing())
-    {
-      //Auton1();
-    }
-  //Controller1.ButtonLeft.pressed(Auton1);
-
     wait(20, msec); // Sleep the task for a short amount of time to
   }
 }
 
-
 // Main will set up the competition functions and callbacks.
 
-int main() {
+int main() 
+{
   // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
+
 
   // Run the pre-autonomous function.
   pre_auton();

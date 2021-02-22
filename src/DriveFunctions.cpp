@@ -76,6 +76,12 @@ void userDrive(void)
  * @param velocity: how fast to move, signed value
  *                  sign determines direction
  **************************************************/
+static double lin_kP = 0;
+static double lin_kI = 0;
+static double lin_kD = 0;
+static double lin_slewRate = 20;
+static int    lin_minDT = 10;
+
 void moveLinear(float distance, int velocity)
 {
   float rotations = distance * (1/((float)ROTATION_FACTOR));
@@ -91,8 +97,8 @@ void moveLinear(float distance, int velocity)
   pidStruct_t driveL_PID;
   pidStruct_t driveR_PID;
 
-  pidInit(&driveL_PID, 30, 0.00, 30, 99, 50);
-  pidInit(&driveR_PID, 30, 0.00, 30, 99, 50);
+  pidInit(&driveL_PID, lin_kP, lin_kI, lin_kD, lin_slewRate, lin_minDT);
+  pidInit(&driveR_PID, lin_kP, lin_kI, lin_kD, lin_slewRate, lin_minDT);
 
   #if defined (CHASSIS_2_MOTOR_INLINE)
     DriveRight.resetRotation();
@@ -113,11 +119,11 @@ void moveLinear(float distance, int velocity)
   {
     #if defined (CHASSIS_2_MOTOR_INLINE)
       printPIDValues(&driveR_PID);
-      DriveR_Power = (velocity/100.0f) * pidCalculate(&driveR_PID, rotations, DriveRight.rotation(rev));
-      DriveL_Power = (velocity/100.0f) * pidCalculate(&driveL_PID, rotations, DriveLeft.rotation(rev));
+      DriveR_Power = (velocity/100.0f) * pidCalculate(&driveR_PID, rotations, DriveRight.rotation(rev) / 100.0);
+      DriveL_Power = (velocity/100.0f) * pidCalculate(&driveL_PID, rotations, DriveLeft.rotation(rev) / 100.0);
 
-      DriveRight.spin(forward, DriveR_Power, pct);
-      DriveLeft.spin(forward, DriveL_Power, pct);
+      DriveRight.spin(forward, 12 * DriveR_Power, voltageUnits::volt);
+      DriveLeft.spin(forward, 12 * DriveL_Power, voltageUnits::volt);
 
     #elif defined (CHASSIS_4_MOTOR_INLINE)
       printPIDValues(&driveR_PID);
@@ -134,7 +140,7 @@ void moveLinear(float distance, int velocity)
       BackRight.spin(forward, 12 * DriveR_Power, voltageUnits::volt);
     #endif
     
-  }while(fabs(driveR_PID.avgError) > 0.05 || fabs(driveL_PID.avgError) > 0.05);
+  }while(fabs(driveR_PID.avgError) > 0.1 || fabs(driveL_PID.avgError) > 0.1);
 
 #elif !defined (PID)
   #if defined (CHASSIS_2_MOTOR_INLINE)
@@ -164,6 +170,11 @@ void moveStop(void)
 #endif
 }
 
+static double rot_kP = 0;
+static double rot_kI = 0;
+static double rot_kD = 0;
+static double rot_slewRate = 20;
+static int    rot_minDT = 10;
 
 void moveRotate(int16_t degrees, int velocity)
 {
@@ -209,15 +220,15 @@ void moveRotate(int16_t degrees, int velocity)
     pidStruct_t rotateR_PID;
     pidStruct_t rotateL_PID;
 
-    pidInit(&rotateR_PID, 30, 0, 0, 50, 50);
-    pidInit(&rotateL_PID, 30, 0, 0, 50, 50);
+    pidInit(&rotateR_PID, rot_kP, rot_kI, rot_kD, rot_slewRate, rot_minDT);
+    pidInit(&rotateL_PID, rot_kP, rot_kI, rot_kD, rot_slewRate, rot_minDT);
 
     float DriveR_Power = 0;
     float DriveL_Power = 0;
 
   #elif defined GYRO
     pidStruct_t rotatePID;
-    pidInit(&rotatePID, 2, 0, 0.8, 30, 10);
+    pidInit(&rotate_PID, rot_kP, rot_kI, rot_kD, rot_slewRate, rot_minDT);
 
     float motorPower = 0;
   #endif
@@ -231,25 +242,25 @@ void moveRotate(int16_t degrees, int velocity)
       leftRevAvg = (BackLeft.rotation(rev) + FrontLeft.rotation(rev)) / 2.0;
       rightRevAvg = (BackRight.rotation(rev) + FrontRight.rotation(rev)) / 2.0;
 
-      DriveL_Power = (velocity/100.0f) * pidCalculate(&rotateL_PID, rotations, -1.0 * leftRevAvg) / 100.0;
-      DriveR_Power = (velocity/100.0f) * pidCalculate(&rotateR_PID, rotations, rightRevAvg) / 100.0;
+      DriveL_Power = (velocity/100.0f) * pidCalculate(&rotateL_PID, rotations, -1.0 * leftRevAvg) / 100.0f;
+      DriveR_Power = (velocity/100.0f) * pidCalculate(&rotateR_PID, rotations, rightRevAvg) / 100.0f;
     #elif defined CHASSIS_2_MOTOR_INLINE
-      DriveL_Power = (velocity/100.0f) * pidCalculate(&rotateL_PID, rotations, DriveLeft.rotation(rev));
-      DriveR_Power = (velocity/100.0f) * pidCalculate(&rotateR_PID, rotations, -1.0f * DriveRight.rotation(rev));
+      DriveL_Power = (velocity/100.0f) * pidCalculate(&rotateL_PID, rotations, DriveLeft.rotation(rev) / 100.0f);
+      DriveR_Power = (velocity/100.0f) * pidCalculate(&rotateR_PID, rotations, -1.0f * DriveRight.rotation(rev) / 100.0f);
     #endif
   #endif
 
   #if defined (GYRO)
     printPIDValues(&rotatePID);
     #ifdef CHASSIS_4_MOTOR_INLINE
-      FrontRight.spin(forward, motorPower, pct);
-      FrontLeft.spin(reverse, motorPower, pct);
-      BackRight.spin(forward, motorPower, pct);
-      BackLeft.spin(reverse, motorPower, pct);
+      FrontRight.spin(forward, 12 * motorPower, voltageUnits::volt);
+      FrontLeft.spin(reverse, 12 * motorPower, voltageUnits::volt);
+      BackLeft.spin(reverse, 12 * motorPower, voltageUnits::volt);
+      BackRight.spin(forward, 12 * motorPower, voltageUnits::volt);
 
     #elif defined CHASSIS_2_MOTOR_INLINE
-      DriveRight.spin(reverse, motorPower, pct);
-      DriveLeft.spin(forward, motorPower, pct);
+      DriveRight.spin(reverse, 12 * motorPower, voltageUnits::volt);
+      DriveLeft.spin(forward, 12 * motorPower, voltageUnits::volt);
     #endif
 
   #else 
@@ -261,8 +272,8 @@ void moveRotate(int16_t degrees, int velocity)
       BackRight.spin(forward, 12 * DriveR_Power, voltageUnits::volt);
 
     #elif defined CHASSIS_2_MOTOR_INLINE
-      DriveRight.spin(reverse, DriveR_Power, pct);
-      DriveLeft.spin(forward, DriveL_Power, pct);
+      DriveRight.spin(reverse, 12 * DriveR_Power, voltageUnits::volt);
+      DriveLeft.spin(forward, 12 * DriveL_Power, voltageUnits::volt);
     #endif
   #endif
 
@@ -271,7 +282,7 @@ void moveRotate(int16_t degrees, int velocity)
   #if defined GYRO
   }while(fabs(rotatePID.avgError) > 0.8); //error in degrees
   #elif !defined GYRO
-  }while(fabs(rotateR_PID.avgError) > 0.05 || fabs(rotateL_PID.avgError) > 0.5); //error in units of revs
+  }while(fabs(rotateR_PID.avgError) > 0.1 || fabs(rotateL_PID.avgError) > 0.1); //error in units of revs
   #endif
   //end do-while
 
@@ -289,3 +300,22 @@ void moveRotate(int16_t degrees, int velocity)
 #endif
 }
 
+#if defined(PID)
+  void setLinGains(double kP, double kI, double kD, double slewRate, int minDT)
+  {
+    lin_kP = kP;
+    lin_kI = kI;
+    lin_kD = kD;
+    lin_slewRate = slewRate;
+    lin_minDT = minDT;
+  }
+
+  void setRotGains(double kP, double kI, double kD, double slewRate, int minDT)
+  {
+    rot_kP = kP;
+    rot_kI = kI;
+    rot_kD = kD;
+    rot_slewRate = slewRate;
+    rot_minDT = minDT;
+  }
+#endif

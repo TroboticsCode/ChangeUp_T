@@ -31,19 +31,15 @@ void cycle_autons(void)
     if (state == 0)
     {
         state = AutonR;
-        strcpy(state_name, "Auton_1");
+        strcpy(state_name, "Tuning");
     }
     else if (state == AutonR)
     {
-         state = AutonB;
-         strcpy(state_name, "Auton_2");
+         state =   AutonB;
+         strcpy(state_name, "Skills");
     }
+    
     else if (state == AutonB)
-    {
-         state = PIDTUNE;
-         strcpy(state_name, "PID_Tune");
-    }
-    else if (state == PIDTUNE)
     {
         state = NONE;
         strcpy(state_name, "NONE");

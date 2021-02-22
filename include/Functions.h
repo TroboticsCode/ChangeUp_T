@@ -9,9 +9,6 @@
 //lift, claw, etc
 //drive function prototypes can go here but they should be in the DriveFunctions.h file
 void testPID(void);
-
-void runIntake(float speed, float time);
-void punch();
-void punchBack();
+void cameraCenter(vision::signature &sig); 
 
 #endif

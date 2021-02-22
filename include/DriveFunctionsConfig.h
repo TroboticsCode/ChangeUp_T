@@ -21,7 +21,6 @@ void moveRotate(int16_t degrees, int velocity);
 void moveStop(void);
 void userDrive(void);
 
-
 //this is where all the config variables for a robot are located. Change them to match your robot
 //these variables are used in DriveFunctions.cpp
 
@@ -45,17 +44,17 @@ void userDrive(void);
   extern motor BackLeft;
   extern motor BackRight;
 
-  #define FrontLeftPort     PORT10
-  #define FrontRightPort    PORT20
-  #define BackLeftPort      PORT1
-  #define BackRightPort     PORT11
+  #define FrontLeftPort     PORT5
+  #define FrontRightPort    PORT10
+  #define BackLeftPort      PORT6
+  #define BackRightPort     PORT8
 
 #elif defined(CHASSIS_2_MOTOR_INLINE)
   extern motor DriveLeft;
   extern motor DriveRight;
 
-  #define DriveLeftPort     PORT1
-  #define DriveRightPort    PORT2
+  #define DriveLeftPort     PORT6
+  #define DriveRightPort    PORT8
 #endif
 
 /*    Control Scheme
@@ -66,7 +65,7 @@ void userDrive(void);
  //#define TANK_CONTROL
 
 #ifdef ARCADE_CONTROL
-  #define HORIZONTALAXIS Axis4
+  #define HORIZONTALAXIS Axis1
   #define VERTICALAXIS Axis3
 #elif def TANK_CONTROL
   #define LEFTAXIS Axis3
@@ -78,8 +77,8 @@ void userDrive(void);
  * (from wheel center to wheel center) of 
  * your chassis here in inches
  */
- #define CHASSIS_WIDTH    13.0f
- #define CHASSIS_LENGTH   9.50f
+ #define CHASSIS_WIDTH    12.25f
+ #define CHASSIS_LENGTH   6.5f
 
 #define HYPOTENUSE sqrt(pow(CHASSIS_WIDTH,2) + pow(CHASSIS_LENGTH,2))
 #define RADIUS  HYPOTENUSE/2.0f
@@ -114,11 +113,16 @@ void userDrive(void);
 #define GREEN ratio18_1
 
 //#define GEAR_SET    RED
-#define GEAR_SET    BLUE
-//#define GEAR_SET    GREEN
+//#define GEAR_SET    BLUE
+#define GEAR_SET    GREEN
 
 #define PID
 //#define GYRO
+
+#ifdef PID
+  void setLinGains(double kP, double kI, double kD, double slewRate, int minDT);
+  void setRotGains(double kP, double kI, double kD, double slewRate, int minDT);
+#endif
 
 #ifdef GYRO
   extern inertial myGyro;

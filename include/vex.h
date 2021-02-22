@@ -21,8 +21,6 @@
 
 #include "robot-config.h"
 
-//include "testingAuton1.cpp"
-
 #define waitUntil(condition)                                                   \
   do {                                                                         \
     wait(5, msec);                                                             \

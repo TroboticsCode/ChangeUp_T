@@ -22,18 +22,6 @@ void pidInit(pidStruct_t* pid, double kP, double kI, double kD, double slewRate,
   pid->lastTime = Brain.timer(timeUnits::msec);
 }
 
-//looks the same as init because it is the same!
-void updateGains(pidStruct_t* pid, double kP, double kI, double kD, double slewRate, int minDt)
-{
-  pid->kP = kP;
-  pid->kI = kI;
-  pid->kD = kD;
-  pid->slewRate = slewRate;
-  pid->minDt = minDt;
-
-  pid->lastTime = Brain.timer(timeUnits::msec);
-}
-
 double pidCalculate(pidStruct_t *pid, double target, double current)
 {
   pid->error = target - current;

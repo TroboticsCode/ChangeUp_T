@@ -13,7 +13,7 @@
 #include <stdlib.h>
 using namespace vex;
 
-#define SAMPLES_AVG 20
+#define SAMPLES_AVG 10
 
 typedef struct
 {
@@ -35,6 +35,9 @@ typedef struct
   double output = 0;
   double lastOutput = 0;
 } pidStruct_t;
+
+extern pidStruct_t driveL_PID;
+extern pidStruct_t driveR_PID;
 
 void pidInit(pidStruct_t* pid, double kP, double kI, double kD, double slewRate, int minDt);
 double pidCalculate(pidStruct_t* pid, double target, double current);

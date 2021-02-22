@@ -1,37 +1,22 @@
 #include "vex.h"
 #include "Autons.h"
 #include "Functions.h"
-#include "DriveFunctionsConfig.h" 
+#include "DriveFunctionsConfig.h"
 
 //Put your auton routines in here
 
 void Auton1()
 {
-  runIntake(100, 5000);
-  punch();
-
-  moveLinear(-70, 50);
-  
-  wait(5000, msec);
-  punchBack();
-  wait(1000, msec);
-}
-void Auton2()
-{
-  punch();
-}
-
-void pidTuning()
-{
-  //moveLinear(36, 50);
-  moveRotate(270, 100);
-  /*for(int i = 0; i < 8; i++)
-  {
-    moveLinear(12, 100);  
-    moveRotate(-90, 90);
-    
-  }
-  */
+  //          kP kI  kD slew minDT
+  setLinGains(40, 0.00, 35, 1.8, 30);
+  setRotGains(35, 0.004, 20, 3, 20);
+  //moveLinear(36, 100);
+  moveRotate(-360, 25);
   moveStop();
-  wait(20, msec); // Sleep the task for a short amount of time t
+}
+
+void AutonSkeleton()
+{  
+  //setLinGains(80, 0.001, 35, 30, 20);
+  //setRotGains(35, 0.004, 20, 30, 20);
 }
