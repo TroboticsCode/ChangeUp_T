@@ -11,6 +11,7 @@
 #define NONE 0
 #define AutonR 1
 #define AutonB 2
+#define AUTONS 3
 
 extern int state;
 
@@ -20,6 +21,7 @@ void Paint_Screen(void);
 
 //list the names of your autonomous programs here
 void Auton1(void);
-void AutonSkeleton(void);
+void AutonSkills1(void);
+void AutonSkills2(void);
 
 #endif

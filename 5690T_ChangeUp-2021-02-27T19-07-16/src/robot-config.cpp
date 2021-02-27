@@ -10,9 +10,10 @@ brain  Brain;
 
 // VEXcode device constructors
 controller Controller1 = controller(primary);
-motor MiddleRoller = motor(PORT20, ratio18_1, true);
-motor TopRoller = motor(PORT19, ratio6_1, false);
-motor Puncher = motor(PORT1, GREEN, false);
+motor rollerBottom = motor(PORT3, ratio18_1, true);
+motor rollerTop = motor(PORT2, ratio6_1, false);
+motor Puncher = motor(PORT12, GREEN, false);
+motor flipper = motor(PORT4, GREEN, false);
 
 
 // VEXcode generated functions

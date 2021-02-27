@@ -140,7 +140,7 @@ void moveLinear(float distance, int velocity)
       BackRight.spin(forward, 12 * DriveR_Power, voltageUnits::volt);
     #endif
     
-  }while(fabs(driveR_PID.avgError) > 0.1 || fabs(driveL_PID.avgError) > 0.1);
+  }while(fabs(driveR_PID.avgError) > 0.03 || fabs(driveL_PID.avgError) > 0.03);
 
 #elif !defined (PID)
   #if defined (CHASSIS_2_MOTOR_INLINE)
@@ -228,7 +228,7 @@ void moveRotate(int16_t degrees, int velocity)
 
   #elif defined GYRO
     pidStruct_t rotatePID;
-    pidInit(&rotate_PID, rot_kP, rot_kI, rot_kD, rot_slewRate, rot_minDT);
+    pidInit(&rotatePID, rot_kP, rot_kI, rot_kD, rot_slewRate, rot_minDT);
 
     float motorPower = 0;
   #endif
@@ -253,10 +253,10 @@ void moveRotate(int16_t degrees, int velocity)
   #if defined (GYRO)
     printPIDValues(&rotatePID);
     #ifdef CHASSIS_4_MOTOR_INLINE
-      FrontRight.spin(forward, 12 * motorPower, voltageUnits::volt);
-      FrontLeft.spin(reverse, 12 * motorPower, voltageUnits::volt);
-      BackLeft.spin(reverse, 12 * motorPower, voltageUnits::volt);
-      BackRight.spin(forward, 12 * motorPower, voltageUnits::volt);
+      FrontRight.spin(reverse, 12 * motorPower, voltageUnits::volt);
+      FrontLeft.spin(forward, 12 * motorPower, voltageUnits::volt);
+      BackLeft.spin(forward, 12 * motorPower, voltageUnits::volt);
+      BackRight.spin(reverse, 12 * motorPower, voltageUnits::volt);
 
     #elif defined CHASSIS_2_MOTOR_INLINE
       DriveRight.spin(reverse, 12 * motorPower, voltageUnits::volt);
@@ -280,7 +280,7 @@ void moveRotate(int16_t degrees, int velocity)
   wait(10, msec);
 
   #if defined GYRO
-  }while(fabs(rotatePID.avgError) > 0.8); //error in degrees
+  }while(fabs(rotatePID.avgError) > 0.3); //error in degrees
   #elif !defined GYRO
   }while(fabs(rotateR_PID.avgError) > 0.1 || fabs(rotateL_PID.avgError) > 0.1); //error in units of revs
   #endif

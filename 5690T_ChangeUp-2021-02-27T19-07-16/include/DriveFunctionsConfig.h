@@ -44,10 +44,10 @@ void userDrive(void);
   extern motor BackLeft;
   extern motor BackRight;
 
-  #define FrontLeftPort     PORT5
-  #define FrontRightPort    PORT10
-  #define BackLeftPort      PORT6
-  #define BackRightPort     PORT8
+  #define FrontLeftPort     PORT10
+  #define FrontRightPort    PORT18
+  #define BackLeftPort      PORT1
+  #define BackRightPort     PORT11
 
 #elif defined(CHASSIS_2_MOTOR_INLINE)
   extern motor DriveLeft;
@@ -78,7 +78,7 @@ void userDrive(void);
  * your chassis here in inches
  */
  #define CHASSIS_WIDTH    12.25f
- #define CHASSIS_LENGTH   6.5f
+ #define CHASSIS_LENGTH   9.4f
 
 #define HYPOTENUSE sqrt(pow(CHASSIS_WIDTH,2) + pow(CHASSIS_LENGTH,2))
 #define RADIUS  HYPOTENUSE/2.0f
@@ -117,7 +117,7 @@ void userDrive(void);
 #define GEAR_SET    GREEN
 
 #define PID
-//#define GYRO
+#define GYRO
 
 #ifdef PID
   void setLinGains(double kP, double kI, double kD, double slewRate, int minDT);
@@ -126,7 +126,7 @@ void userDrive(void);
 
 #ifdef GYRO
   extern inertial myGyro;
-  #define GYRO_PORT PORT5
+  #define GYRO_PORT PORT19
 #endif
 
 #endif

@@ -58,7 +58,11 @@ void autonomous(void) {
     break;
 
   case AutonB:
-    AutonSkeleton();
+    AutonSkills1();
+    break;
+
+  case AUTONS:
+    AutonSkills2();
     break;
 
   // Default = NO autonomous
@@ -85,36 +89,34 @@ void usercontrol(void) {
   // comment
   while (1) 
   {   
-    Controller1.ButtonUp.pressed(AutonSkeleton);
-
     // leave the drive code here, it should work if you set up
     // DriveFunctionsConfig.h properly,
     userDrive();
 
     if(Controller1.ButtonL1.pressing())
     {
-      MiddleRoller.spin(directionType::fwd, 100, velocityUnits::pct);
+      rollerBottom.spin(directionType::fwd, 100, velocityUnits::pct);
     }
     else if(Controller1.ButtonL2.pressing())
     {
-      MiddleRoller.spin(directionType::rev, 100, velocityUnits::pct);
+      rollerBottom.spin(directionType::rev, 100, velocityUnits::pct);
     }
     else
     {
-      MiddleRoller.stop(brakeType::hold);
+      rollerBottom.stop(brakeType::hold);
     }
 
     if(Controller1.ButtonR1.pressing())
     {
-      TopRoller.spin(directionType::fwd, 100, velocityUnits::pct);
+      rollerTop.spin(directionType::fwd, 100, velocityUnits::pct);
     }
     else if(Controller1.ButtonR2.pressing())
     {
-      TopRoller.spin(directionType::rev, 100, velocityUnits::pct);
+      rollerTop.spin(directionType::rev, 100, velocityUnits::pct);
     }
     else
     {
-      TopRoller.stop(brakeType::hold);
+      rollerTop.stop(brakeType::hold);
     }
     
     wait(20, msec); // Sleep the task for a short amount of time to
