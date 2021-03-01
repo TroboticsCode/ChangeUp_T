@@ -8,8 +8,8 @@
 
 void testPID() {
   for (int i = 0; i < 8; i++) {
-    moveLinear(12, 100);
-    moveRotate(-90, 90);
+    moveLinear(12, 100, 30);
+    moveRotate(-90, 90, 30);
   }
   // moveStop();
   wait(20, msec); // Sleep the task for a short amount of time t

@@ -16,8 +16,8 @@ using namespace vex;
 #include "PID.h"
 
 //function declarations
-void moveLinear(float distance, int velocity);
-void moveRotate(int16_t degrees, int velocity);
+void moveLinear(float distance, int velocity, uint8_t timeOut);
+void moveRotate(int16_t degrees, int velocity, uint8_t timeOut);
 void moveStop(void);
 void userDrive(void);
 

@@ -82,7 +82,7 @@ static double lin_kD = 0;
 static double lin_slewRate = 20;
 static int    lin_minDT = 10;
 
-void moveLinear(float distance, int velocity)
+void moveLinear(float distance, int velocity, uint8_t timeOut)
 {
   float rotations = distance * (1/((float)ROTATION_FACTOR));
   Brain.Screen.print("Rotations to turn: %f", rotations);
@@ -111,6 +111,8 @@ void moveLinear(float distance, int velocity)
 
     double leftRevAvg  = 0;
     double rightRevAvg = 0;
+
+    uint64_t startTime = Brain.timer(timeUnits::sec);
   #endif
  
   printPIDValues(&driveR_PID);
@@ -140,7 +142,7 @@ void moveLinear(float distance, int velocity)
       BackRight.spin(forward, 12 * DriveR_Power, voltageUnits::volt);
     #endif
     
-  }while(fabs(driveR_PID.avgError) > 0.03 || fabs(driveL_PID.avgError) > 0.03);
+  }while((fabs(driveR_PID.avgError) > 0.03 || fabs(driveL_PID.avgError) > 0.03) && (Brain.timer(timeUnits::sec) - startTime < timeOut));
 
 #elif !defined (PID)
   #if defined (CHASSIS_2_MOTOR_INLINE)
@@ -176,7 +178,7 @@ static double rot_kD = 0;
 static double rot_slewRate = 20;
 static int    rot_minDT = 10;
 
-void moveRotate(int16_t degrees, int velocity)
+void moveRotate(int16_t degrees, int velocity, uint8_t timeOut)
 {
   float arcLength = (degrees/360.0f) * CIRCUMFERENCE;
   float rotFactor = ROTATION_FACTOR;
@@ -214,6 +216,8 @@ void moveRotate(int16_t degrees, int velocity)
 
     double leftRevAvg  = 0;
     double rightRevAvg = 0;
+
+    uint64_t startTime = Brain.timer(timeUnits::sec);
   #endif
 
   #if !defined GYRO
@@ -280,9 +284,9 @@ void moveRotate(int16_t degrees, int velocity)
   wait(10, msec);
 
   #if defined GYRO
-  }while(fabs(rotatePID.avgError) > 0.3); //error in degrees
+  }while((fabs(rotatePID.avgError) > 0.3) && (Brain.timer(timeUnits::sec) - startTime < timeOut)); //error in degrees
   #elif !defined GYRO
-  }while(fabs(rotateR_PID.avgError) > 0.1 || fabs(rotateL_PID.avgError) > 0.1); //error in units of revs
+  }while((fabs(rotateR_PID.avgError) > 0.1 || fabs(rotateL_PID.avgError) > 0.1) && (Brain.timer(timeUnits::sec) - startTime < timeOut)); //error in units of revs
   #endif
   //end do-while
 

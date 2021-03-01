@@ -11,13 +11,13 @@ void Auton1() {
   // setRotGains(0.008, 0.00000025, 0.065, 40, 30);
   setRotGains(0.015, 0.000000008, 0.07, 40, 30);
   // moveLinear(36, 100);
-  moveRotate(-45, 100);
+  moveRotate(-45, 100, 30);
   moveStop();
   wait(1, seconds);
-  moveRotate(90, 100);
+  moveRotate(90, 100, 30);
   moveStop();
   wait(1, seconds);
-  moveRotate(-45, 100);
+  moveRotate(-45, 100, 30);
   moveStop();
 }
 
@@ -27,17 +27,17 @@ void AutonSkills1() {
 
   intakeUp(3); // shoot ball #1
 
-  moveLinear(-58, 100); // inital back up
+  moveLinear(-58, 100, 30); // inital back up
   Brain.Screen.setCursor(1, 1);
   Brain.Screen.print("Move 1 Complete");
   wait(1, sec);
 
-  moveRotate(-56, 100); // rotate to align with tower
+  moveRotate(-56, 100, 30); // rotate to align with tower
   Brain.Screen.setCursor(2, 1);
   Brain.Screen.print("Move 2 Complete");
   wait(1, sec);
 
-  moveLinear(-16, 100); // drive into tower
+  moveLinear(-16, 100, 30); // drive into tower
   Brain.Screen.setCursor(3, 1);
   Brain.Screen.print("Move 3 Complete");
 
@@ -71,8 +71,8 @@ void AutonSkills1() {
   Brain.Screen.setCursor(9, 1); // punch 3 backward
   Brain.Screen.print("PunchBack 3 Complete");
 
-  moveLinear(24, 100);
-  moveRotate(-80, 100); // align to pick up ball #2
+  moveLinear(24, 100, 30);
+  moveRotate(-80, 100, 30); // align to pick up ball #2
 
   /*double distanceValue = 0;
   bool Ball = 0;
