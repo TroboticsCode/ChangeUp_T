@@ -8,16 +8,12 @@
 void Auton1() {
   //          kP   kI  kD slew minDT
   setLinGains(45, 0.004, 15, 40, 30);
+  setLinGains(85, 0.04, 15, 40, 30);
   // setRotGains(0.008, 0.00000025, 0.065, 40, 30);
   setRotGains(0.015, 0.000000008, 0.07, 40, 30);
   // moveLinear(36, 100);
   moveRotate(-45, 100, 30);
-  moveStop();
-  wait(1, seconds);
-  moveRotate(90, 100, 30);
-  moveStop();
-  wait(1, seconds);
-  moveRotate(-45, 100, 30);
+  //moveLinear(6, 100, 30);
   moveStop();
 }
 
@@ -111,4 +107,41 @@ void AutonSkills2() {
   setRotGains(0.015, 0.000000008, 0.07, 40, 30);
   cameraCenter(SIGRED);
 
+  setLinGains(85, 0.04, 15, 40, 30);
+  moveLinear(6, 100, 30);
+  moveStop();
+  rollerBottom.setVelocity(25, rpm); // pick up ball one
+  rollerBottom.spinFor(forward, 3, seconds);
+
+  setLinGains(45, 0.004, 15, 40, 30);
+  moveRotate(140, 100, 30);
+  moveStop();
+  moveLinear(20, 100, 30); // align with tower 1
+  moveStop();
+
+  intakeUp(3); // shoot preload
+
+  rollerBottom.setVelocity(25, percent);
+  rollerBottom.spin(forward);
+  moveLinear(-53, 100, 30); // hold ball and align with tower 2
+  moveStop();
+  rollerBottom.stop();
+
+  moveRotate(75, 100, 30);
+  moveStop(); // score ball 1
+  intakeUp(3);
+
+  moveRotate(90, 100, 30);
+  moveStop();
+  rollerBottom.setVelocity(25, percent); // move to tower 3 and grab ball 2
+  rollerBottom.spin(forward);
+  moveLinear(36, 100, 30);
+  moveStop();
+  rollerBottom.stop();
+
+  moveRotate(-40, 100, 30);
+  moveStop();
+  moveLinear(6, 100, 30); // align and score ball 2
+  moveStop();
+  intakeUp(3);
 }
