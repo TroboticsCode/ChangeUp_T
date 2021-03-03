@@ -1,4 +1,5 @@
 #include "vex.h"
+#include <vex_triport.h>
 #include "DriveFunctionsConfig.h"
 
 using namespace vex;
@@ -14,7 +15,7 @@ motor rollerBottom = motor(PORT3, ratio18_1, false);
 motor rollerTop = motor(PORT2, ratio6_1, false);
 motor Puncher = motor(PORT12, GREEN, false);
 motor flipper = motor(PORT4, GREEN, false);
-
+bumper bumpSwitch = bumper(Brain.ThreeWirePort.A);
 
 // VEXcode generated functions
 

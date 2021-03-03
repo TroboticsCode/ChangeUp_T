@@ -10,11 +10,13 @@ void Auton1() {
   setLinGains(45, 0.004, 15, 40, 30);
   setLinGains(85, 0.04, 15, 40, 30);
   // setRotGains(0.008, 0.00000025, 0.065, 40, 30);
-  setRotGains(0.015, 0.000000008, 0.07, 40, 30);
+  //setRotGains(0.015, 0.000000008, 0.07, 40, 30);
   // moveLinear(36, 100);
-  moveRotate(-45, 100, 30);
+  //moveRotate(-45, 100, 30);
   //moveLinear(6, 100, 30);
-  moveStop();
+  //moveStop();
+
+  cameraCenter(SIGRED);
 }
 
 void AutonSkills1() {
@@ -113,34 +115,38 @@ void AutonSkills2() {
   rollerBottom.spinFor(forward, 3, seconds);
 
   setLinGains(45, 0.004, 15, 40, 30);
-  moveRotate(125, 100, 3);
+  moveRotate(110, 100, 3);
   moveStop();
-  moveLinear(10, 100, 3); // align with tower 1
-  moveStop();
+  cameraCenter(SIGGREEN);
+  tower(); // align with tower 1
+  setLinGains(85, 0.04, 15, 40, 30);
+  moveLinear(-2,100,1);
 
-  intakeUp(3); // shoot preload
+  intakeUp(2); // shoot preload
 
   rollerBottom.setVelocity(25, percent);
   rollerBottom.spin(forward);
   moveLinear(-53, 100, 6); // hold ball and align with tower 2
   moveStop();
+  
   rollerBottom.stop();
-
   moveRotate(75, 100, 3);
   moveStop(); // score ball 1
+  cameraCenter(SIGGREEN);
   intakeUp(3);
 
   moveRotate(90, 100, 3);
   moveStop();
   rollerBottom.setVelocity(25, percent); // move to tower 3 and grab ball 2
   rollerBottom.spin(forward);
+  cameraCenter(SIGRED);
   moveLinear(36, 100, 6);
   moveStop();
   rollerBottom.stop();
 
   moveRotate(-40, 100, 3);
   moveStop();
-  moveLinear(6, 100, 3); // align and score ball 2
-  moveStop();
+  cameraCenter(SIGGREEN);
+  tower(); // align and score ball 2
   intakeUp(3);
 }

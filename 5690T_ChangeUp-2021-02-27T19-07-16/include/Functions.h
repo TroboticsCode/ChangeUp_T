@@ -23,5 +23,6 @@ void intakeDrive (float time, float angle);
 void intakeEnd();
 void pickUp(float time);
 void Flipper ();
+void tower();
 
 #endif

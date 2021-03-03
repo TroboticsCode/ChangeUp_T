@@ -79,7 +79,7 @@ void cameraCenter(int color) {
 
   int objectCenter = Vision1.largestObject.centerX;
 
-  while ((objectCenter > CENTER_X + 20) || (objectCenter < CENTER_X - 20)) {
+  while ((objectCenter > CENTER_X + 10) || (objectCenter < CENTER_X - 10)) {
     if (color == SIGRED)
       Vision1.takeSnapshot(REDSIG);
     else if (color == SIGBLUE)
@@ -92,18 +92,18 @@ void cameraCenter(int color) {
     Brain.Screen.clearLine();
     Brain.Screen.print(objectCenter);
 
-    if (objectCenter < CENTER_X - 40) {
+    if (objectCenter > CENTER_X + 5) {
       Brain.Screen.print("turn right");
-      BackRight.spin(directionType::rev, 20, velocityUnits::pct);
-      BackLeft.spin(directionType::fwd, 20, velocityUnits::pct);
-      FrontRight.spin(directionType::rev, 20, velocityUnits::pct);
-      FrontLeft.spin(directionType::fwd, 20, velocityUnits::pct);
-    } else if (objectCenter > CENTER_X + 40) {
+      BackRight.spin(directionType::rev, 10, velocityUnits::pct);
+      BackLeft.spin(directionType::fwd, 10, velocityUnits::pct);
+      FrontRight.spin(directionType::rev, 10, velocityUnits::pct);
+      FrontLeft.spin(directionType::fwd, 10, velocityUnits::pct);
+    } else if (objectCenter < CENTER_X - 5) {
       Brain.Screen.print("turn left ");
-      BackRight.spin(directionType::fwd, 20, velocityUnits::pct);
-      BackLeft.spin(directionType::rev, 20, velocityUnits::pct);
-      FrontRight.spin(directionType::fwd, 20, velocityUnits::pct);
-      FrontLeft.spin(directionType::rev, 20, velocityUnits::pct);
+      BackRight.spin(directionType::fwd, 10, velocityUnits::pct);
+      BackLeft.spin(directionType::rev, 10, velocityUnits::pct);
+      FrontRight.spin(directionType::fwd, 10, velocityUnits::pct);
+      FrontLeft.spin(directionType::rev, 10, velocityUnits::pct);
     } else {
       Brain.Screen.print("Dont move");
       BackRight.stop();
@@ -114,4 +114,21 @@ void cameraCenter(int color) {
   }
   Brain.Screen.newLine();
   Brain.Screen.print("DONE");
+  BackRight.stop(brakeType::brake);
+  BackLeft.stop(brakeType::brake);
+  FrontRight.stop(brakeType::brake);
+  FrontLeft.stop(brakeType::brake);
+}
+
+void tower() {
+  while (!bumpSwitch.pressing()) {
+    BackRight.spin(directionType::fwd, 35, velocityUnits::pct);
+    BackLeft.spin(directionType::fwd, 35, velocityUnits::pct);
+    FrontRight.spin(directionType::fwd, 35, velocityUnits::pct);
+    FrontLeft.spin(directionType::fwd, 35, velocityUnits::pct);
+  }
+  BackRight.stop();
+  BackLeft.stop();
+  FrontRight.stop();
+  FrontLeft.stop();
 }

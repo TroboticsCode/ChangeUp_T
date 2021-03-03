@@ -12,7 +12,7 @@ extern motor rollerTop;
 extern motor rollerBottom;
 extern motor Puncher;
 extern motor flipper;
-
+extern bumper bumpSwitch;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Text.
