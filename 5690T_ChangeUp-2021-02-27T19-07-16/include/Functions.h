@@ -13,7 +13,7 @@
 //lift, claw, etc
 //drive function prototypes can go here but they should be in the DriveFunctions.h file
 void testPID(void);
-void cameraCenter(int color);
+void towerCenter(int color);
 
 void punch();
 void punchBack();
@@ -23,6 +23,8 @@ void intakeDrive (float time, float angle);
 void intakeEnd();
 void pickUp(float time);
 void Flipper ();
-void tower();
+void tower (uint8_t timeOut);
+void intakeTop(float time);
+void ballCenter(int color);
 
 #endif
