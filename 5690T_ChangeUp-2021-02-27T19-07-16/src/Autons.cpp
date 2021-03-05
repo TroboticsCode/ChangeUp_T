@@ -115,7 +115,7 @@ void AutonSkills2() {
   rollerBottom.spinFor(forward, 2, seconds);
 
   setLinGains(45, 0.004, 15, 40, 30);
-  moveRotate(110, 100, 1);
+  moveRotate(110, 100, 2);
   moveStop();
   towerCenter(SIGGREEN);
   tower(2); // align with tower 1
