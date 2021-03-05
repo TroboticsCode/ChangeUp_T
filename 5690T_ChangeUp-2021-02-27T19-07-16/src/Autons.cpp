@@ -109,16 +109,18 @@ void AutonSkills2() {
   setRotGains(0.015, 0.000000008, 0.07, 40, 30);
 
   setLinGains(85, 0.04, 15, 40, 30);
-  moveLinear(10, 100, 3);
+  moveLinear(10, 100, 2);
   moveStop();
   rollerBottom.setVelocity(25, rpm); // pick up ball one
-  rollerBottom.spinFor(forward, 3, seconds);
+  rollerBottom.spinFor(forward, 2, seconds);
 
   setLinGains(45, 0.004, 15, 40, 30);
-  moveRotate(110, 100, 3);
+  moveRotate(110, 100, 1);
   moveStop();
   towerCenter(SIGGREEN);
   tower(2); // align with tower 1
+  moveLinear(-1,100,1);
+  moveStop();
 
   intakeTop(2); // shoot preload
 
@@ -147,5 +149,31 @@ void AutonSkills2() {
   moveStop();
   towerCenter(SIGGREEN);
   tower(2); // align and score ball 2
+  towerCenter(SIGGREEN);
   intakeUp(3);
+
+  moveLinear(-9, 100, 1);
+  moveStop();
+  moveRotate(120, 100, 2);
+  moveStop();
+  ballCenter(SIGRED);
+  rollerBottom.setVelocity(25,percent);
+  rollerBottom.spin(forward);
+  moveLinear(24, 100, 3);
+  moveStop();
+  ballCenter(SIGRED);
+  moveLinear(6, 100, 1);
+  moveStop();
+  rollerBottom.stop(brake);
+  moveRotate(-90, 100, 2);
+  moveStop();
+  towerCenter(SIGGREEN);
+  tower(2);
+  intakeUp(3);
+
+
+  
+
+
+
 }
