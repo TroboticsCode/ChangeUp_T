@@ -2,7 +2,7 @@
 #include "DriveFunctionsConfig.h"
 #include "vex.h"
 #include "vision.h"
-//#include "vision2.h"
+#include "vision2.h"
 
 #define CENTER_X 316 / 2.0f
 #define CENTER_Y 212 / 2.0f
@@ -79,8 +79,6 @@ void Flipper() {
 }
 
 void towerCenter(int color) {
-  vision::signature sig = REDSIG;
-
   Brain.Screen.setCursor(1, 1);
   Brain.Screen.print("Starting tower center routine");
 
@@ -135,29 +133,27 @@ void towerCenter(int color) {
 }
 
 void ballCenter(int color) {
-  vision::signature sig = REDSIG;
-
   Brain.Screen.setCursor(1, 1);
   Brain.Screen.print("Starting ball center routine");
 
   if (color == SIGRED)
-    Vision2.takeSnapshot(REDSIG);
+    Vision2.takeSnapshot(REDSIG2);
   else if (color == SIGBLUE)
-    Vision2.takeSnapshot(BLUESIG);
+    Vision2.takeSnapshot(BLUESIG2);
   else if (color == SIGGREEN)
-    Vision2.takeSnapshot(GREENSIG);
+    Vision2.takeSnapshot(GREENSIG2);
 
   int objectCenter = Vision2.largestObject.centerX;
 
   while ((objectCenter > CENTER_X + 10) || (objectCenter < CENTER_X - 10)) {
     if (color == SIGRED)
-      Vision2.takeSnapshot(REDSIG);
+      Vision2.takeSnapshot(REDSIG2);
     else if (color == SIGBLUE)
-      Vision2.takeSnapshot(BLUESIG);
+      Vision2.takeSnapshot(BLUESIG2);
     else if (color == SIGGREEN)
-      Vision2.takeSnapshot(GREENSIG);
+      Vision2.takeSnapshot(GREENSIG2);
 
-    objectCenter = Vision1.largestObject.centerX;
+    objectCenter = Vision2.largestObject.centerX;
     Brain.Screen.setCursor(2, 2);
     Brain.Screen.clearLine();
     Brain.Screen.print(objectCenter);
