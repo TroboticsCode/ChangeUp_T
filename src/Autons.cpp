@@ -191,10 +191,10 @@ void AutonSkills2() {
   rollerBottom.setVelocity(40, percent);
   rollerBottom.spin(forward);
   ballCenter(SIGRED); // aligns to pickup ball 4
-  moveLinear(36, 100, 3000);
+  moveLinear(32, 100, 3000);
   moveStop();
   ballCenter(SIGRED);
-  moveLinear(12, 100, 1500);
+  moveLinear(16, 100, 1500);
   moveStop();
   rollerBottom.stop(brake);
 
@@ -214,7 +214,10 @@ void AutonSkills2() {
   moveLinear(24, 100, 2000);
   moveStop();
   ballCenter(SIGRED);
-  moveLinear(28, 100, 1500);
+  moveLinear(15, 100, 1500);
+  moveStop();    // aligns with tower 6 and shoots ball 5 
+  ballCenter(SIGRED);
+  moveLinear(15, 100, 1500);
   moveStop();
   rollerBottom.stop(brake);
   moveRotate(-110, 100, 1500);
@@ -225,4 +228,25 @@ void AutonSkills2() {
   rollerTop.spin(forward);
   rollerBottom.spin(forward);
   tower(1500);
+  wait(3,sec);
+  rollerBottom.stop();
+  rollerTop.stop();
+
+  moveLinear(-4, 100, 1000);
+  moveStop();
+  moveRotate(90,100,1000);
+  moveStop();
+  rollerBottom.setVelocity(100,percent);
+  ballCenter(SIGRED);
+  moveLinear(16, 100, 1000);
+  moveStop();
+  ballCenter(SIGRED);
+  moveLinear(16,100,1000);
+  moveStop();
+  rollerBottom.stop();
+  towerCenter(SIGGREEN);
+  tower(2000);
+  rollerBottom.setVelocity(100,percent);
+  rollerTop.setVelocity(100, percent);
+  towerCenter(SIGGREEN);
 }
