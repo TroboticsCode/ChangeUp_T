@@ -20,88 +20,24 @@ void Auton1() {
 }
 
 void AutonSkills1() {
-  // setLinGains(80, 0.001, 35, 30, 20);
-  // setRotGains(35, 0.004, 20, 30, 20);
-
-  intakeUp(3); // shoot ball #1
-
-  moveLinear(-58, 100, 30); // inital back up
-  Brain.Screen.setCursor(1, 1);
-  Brain.Screen.print("Move 1 Complete");
-  wait(1, sec);
-
-  moveRotate(-56, 100, 30); // rotate to align with tower
-  Brain.Screen.setCursor(2, 1);
-  Brain.Screen.print("Move 2 Complete");
-  wait(1, sec);
-
-  moveLinear(-16, 100, 30); // drive into tower
-  Brain.Screen.setCursor(3, 1);
-  Brain.Screen.print("Move 3 Complete");
-
-  punch(); // Punch 1 forward
-  Brain.Screen.setCursor(4, 1);
-  Brain.Screen.print("Punch 1 Complete");
-  wait(1, seconds);
-
-  punchBack();
-  wait(1, seconds);
-  Brain.Screen.setCursor(5, 1); // punch 1 backward
-  Brain.Screen.print("PunchBack 1 Complete");
-
-  punch(); // Punch 2 forward
-  Brain.Screen.setCursor(6, 1);
-  Brain.Screen.print("Punch 2 Complete");
-  wait(1, seconds);
-
-  punchBack();
-  wait(1, seconds); // punch 2 backward
-  Brain.Screen.setCursor(7, 1);
-  Brain.Screen.print("PunchBack 2 Complete");
-
-  punch(); // Punch 3 forward
-  Brain.Screen.setCursor(8, 1);
-  Brain.Screen.print("Punch 3 Complete");
-  wait(1, seconds);
-
-  punchBack();
-  wait(1, seconds);
-  Brain.Screen.setCursor(9, 1); // punch 3 backward
-  Brain.Screen.print("PunchBack 3 Complete");
-
-  moveLinear(24, 100, 30);
-  moveRotate(-80, 100, 30); // align to pick up ball #2
-
-  /*double distanceValue = 0;
-  bool Ball = 0;
-  distanceValue =
-      outsideDistance.takeSnapshot(outsideDistance__SIG_1); // pick up ball #2
-
-  Drivetrain.driveFor(forward, distanceValue, inches);
-  Ball = intakeDistance.isObjectDetected();
-  if (Ball == 1) {
-    pickUp(2);
-  }
-  Drivetrain.driveFor(reverse, 36, inches);
-  Drivetrain.turnFor(right, 35, degrees);
-  Drivetrain.driveFor(forward, 40, inches); // align to score ball #2
-  Drivetrain.driveFor(reverse, 2, inches);
-
-  intakeUp(3); // score ball #2
-
-  Drivetrain.driveFor(reverse, 40, inches);
-  Drivetrain.turnFor(left, 35, degrees);
-  // distanceValue = outsideDistance.objectDistance(inches); // reset for ball
-  // #3
-  Drivetrain.driveFor(forward, distanceValue, inches);
-
-  Drivetrain.driveFor(reverse, 37, inches);
-  Drivetrain.turnFor(left, 90, degrees);
-  // distanceValue = outsideDistance.objectDistance(inches); //pick up ball #3
-  Drivetrain.driveFor(forward, distanceValue, inches);
-  Ball = intakeDistance.isObjectDetected();
-  if (Ball == 1) {
-    pickUp(2);*/
+  setLinGains(45, 0.004, 15, 40, 30);
+  setRotGains(0.015, 0.000000008, 0.07, 40, 30);
+  moveLinear(24, 100, 1000);
+  moveStop();
+  moveRotate(-135, 100, 1000);
+  moveStop();
+  moveLinear(18,100,1000);
+  towerCenter(SIGGREEN);
+  moveTower(2500);
+  towerCenter(SIGGREEN);
+  rollerTop.setVelocity(100, percent);
+  rollerTop.spinFor(1.5, seconds);
+  rollerTop.stop();
+  moveLinear(-55, 100, 10000);
+  moveStop();
+  moveRotate(-45, 100, 10000);
+  moveStop();
+  
 }
 
 void AutonSkills2() {

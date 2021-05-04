@@ -200,3 +200,23 @@ void tower(uint32_t timeOut) {
   FrontRight.stop();
   FrontLeft.stop();
 }
+
+void moveTower(uint32_t timeOut) {
+  uint64_t startTime = Brain.timer(timeUnits::msec);
+  while ((!bumpSwitch.pressing()) &&
+         (Brain.timer(timeUnits::msec) - startTime < timeOut)) {
+    BackRight.spin(directionType::fwd, 45, velocityUnits::pct);
+    BackLeft.spin(directionType::fwd, 45, velocityUnits::pct);
+    FrontRight.spin(directionType::fwd, 45, velocityUnits::pct);
+    FrontLeft.spin(directionType::fwd, 45, velocityUnits::pct);
+    rollerBottom.setVelocity(75, percent);
+    rollerBottom.spin(forward);
+  }
+  BackRight.stop();
+  BackLeft.stop();
+  FrontRight.stop();
+  FrontLeft.stop();
+  wait(1,sec);
+  rollerBottom.setVelocity(0,percent);
+  rollerBottom.stop();
+}
