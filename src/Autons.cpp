@@ -33,11 +33,28 @@ void AutonSkills1() {
   rollerTop.setVelocity(100, percent);
   rollerTop.spinFor(1.5, seconds);
   rollerTop.stop();
-  moveLinear(-55, 100, 10000);
+  moveLinear(-60, 100, 1000);
   moveStop();
-  moveRotate(-45, 100, 10000);
+  moveRotate(-55, 100, 1000);
   moveStop();
-  
+  moveLinear(16, 100, 1000);
+  moveStop();
+  towerCenter(SIGGREEN);
+  moveLinear(17, 100, 1000);
+  moveStop();
+  towerCenter(SIGGREEN);
+  intakeUp(2);
+  moveLinear(-24, 100, 1000);
+  moveStop();
+  moveRotate(-50, 100, 1000);
+  moveStop();
+  moveLinear(25, 100, 2000);
+  moveStop();
+  towerCenter(SIGGREEN);
+  moveLinear(30, 100, 1000);
+  moveStop();
+  moveTower(3000);
+  intakeUp(2);
 }
 
 void AutonSkills2() {
