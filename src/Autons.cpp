@@ -20,7 +20,7 @@ void Auton1() {
 }
 
 void AutonSkills1() {
-  setLinGains(45, 0.004, 15, 40, 30);
+  /*setLinGains(45, 0.004, 15, 40, 30);
   setRotGains(0.015, 0.000000008, 0.07, 40, 30);
   moveLinear(24, 100, 1000);
   moveStop();
@@ -54,8 +54,25 @@ void AutonSkills1() {
   moveLinear(30, 100, 1000);
   moveStop();
   moveTower(3000);
-  intakeUp(2);
-}
+  intakeUp(2);*/
+
+  setLinGains(45, 0.004, 15, 40, 30);
+  setRotGains(0.015, 0.000000008, 0.07, 40, 30);
+  moveTower(3000);
+  towerCenter(SIGGREEN);
+  rollerTop.setVelocity(100, percent);
+  rollerTop.spinFor(1.5, seconds);
+  rollerTop.stop();
+  towerCenter(SIGGREEN);
+  moveLinear(-61, 100, 3000);
+  moveStop();
+  moveRotate(-50, 100, 1000);
+  moveStop();
+  tower(3000);
+  intakeUp(3);
+  
+
+  }
 
 void AutonSkills2() {
   myGyro.calibrate();
