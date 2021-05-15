@@ -9,7 +9,7 @@ void Auton1() {
   //          kP   kI  kD slew minDT
   setLinGains(45, 0.004, 15, 40, 30); // large move
 
-  setLinGains(85, 0.04, 15, 40, 30); // small move
+  //setLinGains(85, 0.04, 15, 40, 30); // small move
   // setRotGains(0.008, 0.00000025, 0.065, 40, 30);
   // setRotGains(0.015, 0.000000008, 0.07, 40, 30);
   // moveLinear(36, 100);
@@ -17,6 +17,7 @@ void Auton1() {
   // moveLinear(6, 100, 30);
   // moveStop();
   // ballCenter(SIGRED);
+ YOLO(5);
 }
 
 void AutonSkills1() {
@@ -56,22 +57,28 @@ void AutonSkills1() {
   moveTower(3000);
   intakeUp(2);*/
 
-  setLinGains(45, 0.004, 15, 40, 30);
+  /*setLinGains(45, 0.004, 15, 40, 30);
   setRotGains(0.015, 0.000000008, 0.07, 40, 30);
   moveTower(3000);
   towerCenter(SIGGREEN);
   rollerTop.setVelocity(100, percent);
   rollerTop.spinFor(1.5, seconds);
   rollerTop.stop();
-  towerCenter(SIGGREEN);
   moveLinear(-61, 100, 3000);
   moveStop();
   moveRotate(-50, 100, 1000);
   moveStop();
-  tower(3000);
-  intakeUp(3);
-  
-
+  tower(3000); 
+  intakeUp(1.7); //score middle tower
+  moveRotate(-100, 100, 1000);
+  moveStop();
+  moveLinear(48, 100, 1000); //move towards last tower
+  moveStop();
+  moveRotate(50, 100, 1000);
+  moveStop();
+  towerCenter(SIGGREEN);
+  YOLO (5);*/
+  YOLO(5);
   }
 
 void AutonSkills2() {

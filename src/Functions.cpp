@@ -190,10 +190,10 @@ void tower(uint32_t timeOut) {
   uint64_t startTime = Brain.timer(timeUnits::msec);
   while ((!bumpSwitch.pressing()) &&
          (Brain.timer(timeUnits::msec) - startTime < timeOut)) {
-    BackRight.spin(directionType::fwd, 45, velocityUnits::pct);
-    BackLeft.spin(directionType::fwd, 45, velocityUnits::pct);
-    FrontRight.spin(directionType::fwd, 45, velocityUnits::pct);
-    FrontLeft.spin(directionType::fwd, 45, velocityUnits::pct);
+    BackRight.spin(directionType::fwd, 100, velocityUnits::pct);
+    BackLeft.spin(directionType::fwd, 100, velocityUnits::pct);
+    FrontRight.spin(directionType::fwd, 100, velocityUnits::pct);
+    FrontLeft.spin(directionType::fwd, 100, velocityUnits::pct);
   }
   BackRight.stop();
   BackLeft.stop();
@@ -219,4 +219,29 @@ void moveTower(uint32_t timeOut) {
   wait(1,sec);
   rollerBottom.setVelocity(0,percent);
   rollerBottom.stop();
+}
+
+void YOLO(uint32_t timeOut) {
+  uint64_t startTime = Brain.timer(timeUnits::msec);
+  rollerBottom.setVelocity(100, pct);
+  rollerTop.setVelocity(100, pct);
+  rollerBottom.setStopping(brake);
+  rollerTop.setStopping(brake);
+
+  while ((!bumpSwitch.pressing()) &&
+    (Brain.timer(timeUnits::msec) - startTime < timeOut)) {
+    BackRight.spin(directionType::fwd, 100, velocityUnits::pct);
+    BackLeft.spin(directionType::fwd, 100, velocityUnits::pct);
+    FrontRight.spin(directionType::fwd, 100, velocityUnits::pct);
+    FrontLeft.spin(directionType::fwd, 100, velocityUnits::pct);
+    BackRight.
+    rollerBottom.spin(forward);
+    rollerTop.spin(forward);
+  }
+  BackRight.stop();
+  BackLeft.stop();
+  FrontRight.stop();
+  FrontLeft.stop();
+  rollerBottom.spin(forward);
+  rollerTop.spin(forward);
 }
