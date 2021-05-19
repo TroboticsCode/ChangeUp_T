@@ -57,7 +57,7 @@ void AutonSkills1() {
   moveTower(3000);
   intakeUp(2);*/
 
-  /*setLinGains(45, 0.004, 15, 40, 30);
+  setLinGains(45, 0.004, 15, 40, 30);
   setRotGains(0.015, 0.000000008, 0.07, 40, 30);
   moveTower(3000);
   towerCenter(SIGGREEN);
@@ -77,8 +77,7 @@ void AutonSkills1() {
   moveRotate(50, 100, 1000);
   moveStop();
   towerCenter(SIGGREEN);
-  YOLO (5);*/
-  YOLO(5);
+  YOLO (5);
   }
 
 void AutonSkills2() {
