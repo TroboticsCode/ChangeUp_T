@@ -27,6 +27,6 @@ void tower (uint32_t timeOut);
 void intakeTop(float time);
 void ballCenter(int color);
 void moveTower(uint32_t timeOut);
-void YOLO(uint32_t timeOut);
+void YOLO();
 
 #endif

@@ -17,7 +17,7 @@ void Auton1() {
   // moveLinear(6, 100, 30);
   // moveStop();
   // ballCenter(SIGRED);
- YOLO(5);
+ YOLO();
 }
 
 void AutonSkills1() {
@@ -69,7 +69,7 @@ void AutonSkills1() {
   moveRotate(-50, 100, 1000);
   moveStop();
   tower(3000); 
-  intakeUp(1.7); //score middle tower
+  intakeUp(1.9); //score middle tower
   moveRotate(-100, 100, 1000);
   moveStop();
   moveLinear(48, 100, 1000); //move towards last tower
@@ -77,7 +77,7 @@ void AutonSkills1() {
   moveRotate(50, 100, 1000);
   moveStop();
   towerCenter(SIGGREEN);
-  YOLO (5);
+  YOLO ();
   }
 
 void AutonSkills2() {
